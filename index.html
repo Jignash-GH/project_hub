@@ -193,12 +193,7 @@
             box-shadow: var(--card-shadow);
             grid-column: 1 / -1;
         }
-
-        /* Make Year select initially hidden */
-        #yearContainer {
-            display: none;
-        }
-
+        
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -215,6 +210,7 @@
             to { opacity: 1; }
         }
 
+        /* Fade-in animation */
         @keyframes fadeInProjects {
             from {
                 opacity: 0;
@@ -257,10 +253,13 @@
                     </select>
                 </div>
                 
-                <div id="yearContainer" class="custom-select">
+                <div class="custom-select">
                     <select id="year">
                         <option value="">Select Year</option>
-                        <!-- Year options will be dynamically populated -->
+                        <option value="1">2020</option>
+                        <option value="2">2021</option>
+                        <option value="3">2022</option>
+                        <option value="4">2023</option>
                     </select>
                 </div>
                 
@@ -391,7 +390,7 @@
         };
 
         function createProjectCard(project) {
-            return ` 
+            return `
                 <div class="project-card" onclick="redirectToRepository('${project.repository}')">
                     <img src="${project.image}" alt="${project.title}" class="project-image">
                     <div class="project-content">
@@ -411,21 +410,16 @@
         function updateYearOptions() {
             const department = document.getElementById('department').value;
             const yearSelect = document.getElementById('year');
-            const yearContainer = document.getElementById('yearContainer');
             yearSelect.innerHTML = '<option value="">Select Year</option>';
 
             if (department === 'ACSE') {
                 yearSelect.innerHTML += '<option value="3">2022</option>';
                 yearSelect.innerHTML += '<option value="4">2023</option>';
-                yearContainer.style.display = 'block'; // Show year selection
-            } else if (department === 'CSE') {
+            } else {
                 yearSelect.innerHTML += '<option value="1">2020</option>';
                 yearSelect.innerHTML += '<option value="2">2021</option>';
                 yearSelect.innerHTML += '<option value="3">2022</option>';
                 yearSelect.innerHTML += '<option value="4">2023</option>';
-                yearContainer.style.display = 'block'; // Show year selection
-            } else {
-                yearContainer.style.display = 'none'; // Hide year selection if no department
             }
         }
 
