@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Hub 2.0</title>
+    <div style="text-align: center;">
+        <img src="http://vignaniit.edu.in/images/09%20copy-1.jpg" 
+             alt="This is VIGNAN logo"  
+             style="width: 100%; height: auto;"/>
+    </div>
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-image: url('https://static.vecteezy.com/system/resources/previews/022/514/324/non_2x/white-gradient-abstract-curve-pattern-free-photo.jpeg');
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Times New Roman', Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: var(--background-image);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 2rem;
+            animation: slideBackground 30s infinite linear;
+        }
+
+        @keyframes slideBackground {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            animation: slideUp 0.5s ease;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .custom-select {
+            position: relative;
+            min-width: 200px;
+        }
+
+        .custom-select select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            appearance: none;
+            background-color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .custom-select select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .custom-select::after {
+            content: '▼';
+            position: absolute;
+            right: 0.3rem;
+            top: 45%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            pointer-events: none;
+        }
+
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 1.0rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            animation: fadeInProjects 0.5s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-info {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: #4b5563;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: #e5e7eb;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            color: #374151;
+        }
+
+        .no-projects {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            grid-column: 1 / -1;
+        }
+
+        /* Make Year select initially hidden */
+        #yearContainer {
+            display: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInProjects {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .filter-group {
+                flex-direction: column;
+            }
+
+            .custom-select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>PROJECT HUB</h1>
+        </header>
+
+        <section class="filter-section">
+            <div class="filter-group">
+                <div class="custom-select">
+                    <select id="department" onchange="updateYearOptions()">
+                        <option value="">Select Department</option>
+                        <option value="CSE">Computer Science</option>
+                        <option value="ACSE">Advanced Computer Science</option>
+                    </select>
+                </div>
+                
+                <div id="yearContainer" class="custom-select">
+                    <select id="year">
+                        <option value="">Select Year</option>
+                        <!-- Year options will be dynamically populated -->
+                    </select>
+                </div>
+                
+                <button class="submit-btn" onclick="showProjects()">Show Projects</button>
+            </div>
+        </section>
+
+        <div id="projectsContainer" class="projects-grid">
+            <!-- Projects will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        //const supabase = window.supabase("")
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                showProjects();
+            }
+        });
+
+        const projects = {
+            'CSE': {
+                '1': [
+                    {
+                        title: 'Smart Attendance System',
+                        image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800',
+                        description: 'Face recognition-based attendance system using Python and OpenCV',
+                        tags: ['Python', 'OpenCV', 'Machine Learning'],
+                        type: 'software',
+                        team: 'Team Alpha',
+                        year: '2023',
+                        repository: 'https://github.com/Swarnimashukla/Automatic-attendance-management-system'
+                    },
+                    {
+                        title: 'IoT Weather Station',
+                        image: 'https://4.bp.blogspot.com/--GSquiK2mf4/Wyd6IwHAw5I/AAAAAAAACko/yJMU--qFMj0G3--9sosdeP2CtJdZP9KfgCLcBGAs/s1600/automatic-weather-station-integrated-with-IoT.png',
+                        description: 'Real-time weather monitoring system using Arduino and sensors',
+                        tags: ['Python', 'Arduino', 'IoT'],
+                        type: 'hardware',
+                        team: 'Team Beta',
+                        year: '2023',
+                        repository: 'https://github.com/Fphelix/RasberryPi-IOT-wheater-Report-System'
+                    }
+                ],
+                '2': [
+                    {
+                        title: 'AI Chess Engine',
+                        image: 'https://images.unsplash.com/photo-1528819622765-d6bcf132f793?w=800',
+                        description: 'Advanced chess engine using deep learning algorithms',
+                        tags: ['AI', 'Python', 'Deep Learning'],
+                        type: 'software',
+                        team: 'Team Gamma',
+                        year: '2023',
+                        repository: 'https://github.com/username/ai-chess-engine'
+                    },
+                    {
+                        title: 'Blockchain Voting System',
+                        image: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800',
+                        description: 'Secure voting system using blockchain technology',
+                        tags: ['Blockchain', 'Smart Contracts', 'Web3'],
+                        type: 'software',
+                        team: 'Team Delta',
+                        year: '2023',
+                        repository: 'https://github.com/username/blockchain-voting-system'
+                    }
+                ],
+                '3': [
+                    {
+                        title: 'AR Campus Navigator',
+                        image: 'https://images.unsplash.com/photo-1527409335569-f0e5c91fa707?w=800',
+                        description: 'Augmented reality app for campus navigation',
+                        tags: ['AR', 'Unity', 'Mobile Dev'],
+                        type: 'software',
+                        team: 'Team Epsilon',
+                        year: '2023',
+                        repository: 'https://github.com/username/ar-campus-navigator'
+                    }
+                ],
+                '4': [
+                    {
+                        title: 'ML-based Health Diagnosis',
+                        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800',
+                        description: 'Machine learning system for early disease detection',
+                        tags: ['Machine Learning', 'Healthcare', 'Python'],
+                        type: 'research',
+                        team: 'Team Zeta',
+                        year: '2023',
+                        repository: 'https://github.com/username/ml-health-diagnosis'
+                    }
+                ]
+            },
+            'ACSE': {
+                '3': [
+                    {
+                        title: 'Smart Home Automation',
+                        image: 'https://tse3.mm.bing.net/th?id=OIP.ARv-HmuSBNc_mGiSO-wl2QHaEw&pid=Api&P=0&h=180',
+                        description: 'Home automation system using IoT and embedded systems',
+                        tags: ['IoT', 'Embedded Systems', 'Hardware'],
+                        type: 'hardware',
+                        team: 'Team Eta',
+                        year: '2023',
+                        repository: 'https://github.com/username/smart-home-automation'
+                    }
+                ],
+                '4': [
+                    {
+                        title: 'Wireless Power Transfer',
+                        image: 'https://images.unsplash.com/photo-1498084393753-b411b2d26b34?w=800',
+                        description: 'Research on efficient wireless power transfer technologies',
+                        tags: ['Electronics', 'Research', 'Power Systems'],
+                        type: 'research',
+                        team: 'Team Theta',
+                        year: '2023',
+                        repository: 'https://github.com/username/wireless-power-transfer'
+                    },
+                    {
+                        title: 'Smart Traffic Control',
+                        image: 'https://images.unsplash.com/photo-1494368308039-ed3393a402a4?w=800',
+                        description: 'IoT-based traffic management system',
+                        tags: ['IoT', 'Embedded Systems', 'Hardware'],
+                        type: 'hardware',
+                        team: 'Team Iota',
+                        year: '2023',
+                        repository: 'https://github.com/username/smart-traffic-control'
+                    }
+                ]
+            }
+        };
+
+        function createProjectCard(project) {
+            return ` 
+                <div class="project-card" onclick="redirectToRepository('${project.repository}')">
+                    <img src="${project.image}" alt="${project.title}" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">${project.title}</h3>
+                        <div class="project-info">
+                            <p>${project.team} | ${project.year}</p>
+                        </div>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tags">
+                            ${project.tags.map(tag => <span class="tag">${tag}</span>).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateYearOptions() {
+            const department = document.getElementById('department').value;
+            const yearSelect = document.getElementById('year');
+            const yearContainer = document.getElementById('yearContainer');
+            yearSelect.innerHTML = '<option value="">Select Year</option>';
+
+            if (department === 'ACSE') {
+                yearSelect.innerHTML += '<option value="3">2022</option>';
+                yearSelect.innerHTML += '<option value="4">2023</option>';
+                yearContainer.style.display = 'block'; // Show year selection
+            } else if (department === 'CSE') {
+                yearSelect.innerHTML += '<option value="1">2020</option>';
+                yearSelect.innerHTML += '<option value="2">2021</option>';
+                yearSelect.innerHTML += '<option value="3">2022</option>';
+                yearSelect.innerHTML += '<option value="4">2023</option>';
+                yearContainer.style.display = 'block'; // Show year selection
+            } else {
+                yearContainer.style.display = 'none'; // Hide year selection if no department
+            }
+        }
+
+        function showProjects() {
+            const department = document.getElementById('department').value;
+            const year = document.getElementById('year').value;
+            const container = document.getElementById('projectsContainer');
+
+            if (!department || !year) {
+                container.innerHTML = `
+                    <div class="no-projects">
+                        <h3>Please select both department and year</h3>
+                    </div>
+                `;
+                return;
+            }
+
+            const departmentProjects = projects[department]?.[year] || [];
+
+            if (departmentProjects.length === 0) {
+                container.innerHTML = `
+                    <div class="no-projects">
+                        <h3>No projects found for ${department} - Year ${year}</h3>
+                        <p>Please select a different department or year.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = departmentProjects.map(project => createProjectCard(project)).join('');
+        }
+
+        function redirectToRepository(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
